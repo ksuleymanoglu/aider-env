@@ -3,7 +3,7 @@ import { exportToCSV } from '../utils/csvExport';
 import { parseCSV } from '../utils/csvUpload';
 import './CustomerList.css';
 
-function CustomerList({ customers, onAddCustomer, onUpdateCustomer }) {
+function CustomerList({ customers, onAddCustomer, onUpdateCustomer, onDeleteCustomer }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -108,6 +108,7 @@ function CustomerList({ customers, onAddCustomer, onUpdateCustomer }) {
             <div className="header-cell">Email</div>
             <div className="header-cell">Phone</div>
             <div className="header-cell">Actions</div>
+            <div className="header-cell"></div>
           </div>
           {customers.map(customer => (
             <div key={customer.id} className="table-row">
@@ -148,12 +149,20 @@ function CustomerList({ customers, onAddCustomer, onUpdateCustomer }) {
                   <div className="table-cell">{customer.name}</div>
                   <div className="table-cell">{customer.email}</div>
                   <div className="table-cell">{customer.phone}</div>
-                  <button 
-                    className="edit-button"
-                    onClick={() => onUpdateCustomer(customer.id, { ...customer, editing: true })}
-                  >
-                    Edit
-                  </button>
+                  <div className="action-buttons">
+                    <button 
+                      className="edit-button"
+                      onClick={() => onUpdateCustomer(customer.id, { ...customer, editing: true })}
+                    >
+                      Edit
+                    </button>
+                    <button 
+                      className="delete-button"
+                      onClick={() => onDeleteCustomer(customer.id)}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </>
               )}
             </div>

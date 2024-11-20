@@ -23,6 +23,10 @@ function App() {
     ));
   };
 
+  const deleteCustomer = (id) => {
+    setCustomers(customers.filter(customer => customer.id !== id));
+  };
+
   return (
     <Router>
       <div className="App">
@@ -33,6 +37,7 @@ function App() {
               customers={customers} 
               onAddCustomer={addCustomer}
               onUpdateCustomer={updateCustomer}
+              onDeleteCustomer={deleteCustomer}
             />} />
           </Routes>
         </div>

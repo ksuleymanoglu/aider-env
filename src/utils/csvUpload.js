@@ -4,14 +4,22 @@ export const parseCSV = (file) => {
     
     reader.onload = (event) => {
       const text = event.target.result;
-      const lines = text.split('\n');
+      // Handle different line endings (CRLF, LF)
+      const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
       
       // Remove header row and empty lines
       const data = lines
         .slice(1)
         .filter(line => line.trim())
         .map(line => {
-          const [name, email, phone] = line.split(',').map(field => field.trim());
+          // Handle possible quoted fields
+          const fields = line.split(',').map(field => {
+            const trimmed = field.trim();
+            // Remove quotes if present
+            return trimmed.replace(/^["'](.*)["']$/, '$1');
+          });
+          
+          const [name, email, phone] = fields;
           return { name, email, phone };
         });
       

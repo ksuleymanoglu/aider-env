@@ -2,18 +2,27 @@ export const exportToCSV = (customers, filename) => {
   // Define CSV headers
   const headers = ['Name', 'Email', 'Phone'];
   
+  // Helper function to escape and quote CSV fields
+  const escapeField = (field) => {
+    // If field contains commas, quotes, or newlines, wrap in quotes and escape existing quotes
+    if (/[",\n\r]/.test(field)) {
+      return `"${field.replace(/"/g, '""')}"`;
+    }
+    return field;
+  };
+
   // Convert customer data to CSV rows
   const customerData = customers.map(customer => [
-    customer.name,
-    customer.email,
-    customer.phone
+    escapeField(customer.name),
+    escapeField(customer.email),
+    escapeField(customer.phone)
   ]);
   
   // Combine headers and data
   const csvContent = [
-    headers.join(','),
+    headers.map(escapeField).join(','),
     ...customerData.map(row => row.join(','))
-  ].join('\n');
+  ].join('\r\n'); // Use Windows-style line endings for better compatibility
   
   // Create blob and download
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });

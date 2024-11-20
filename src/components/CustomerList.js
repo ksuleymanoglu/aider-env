@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './CustomerList.css';
 
 function CustomerList({ customers, onAddCustomer }) {
   const [formData, setFormData] = useState({
@@ -21,10 +22,10 @@ function CustomerList({ customers, onAddCustomer }) {
   };
 
   return (
-    <div>
+    <div className="customer-container">
       <h2>Add New Customer</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form onSubmit={handleSubmit} className="customer-form">
+        <div className="form-group">
           <input
             type="text"
             name="name"
@@ -34,7 +35,7 @@ function CustomerList({ customers, onAddCustomer }) {
             required
           />
         </div>
-        <div>
+        <div className="form-group">
           <input
             type="email"
             name="email"
@@ -44,7 +45,7 @@ function CustomerList({ customers, onAddCustomer }) {
             required
           />
         </div>
-        <div>
+        <div className="form-group">
           <input
             type="tel"
             name="phone"
@@ -54,16 +55,16 @@ function CustomerList({ customers, onAddCustomer }) {
             required
           />
         </div>
-        <button type="submit">Add Customer</button>
+        <button type="submit" className="submit-button">Add Customer</button>
       </form>
 
       <h2>Customer List</h2>
       {customers.length === 0 ? (
         <p>No customers yet.</p>
       ) : (
-        <ul>
+        <ul className="customer-list">
           {customers.map(customer => (
-            <li key={customer.id}>
+            <li key={customer.id} className="customer-item">
               <strong>{customer.name}</strong> - {customer.email} - {customer.phone}
             </li>
           ))}

@@ -105,11 +105,9 @@ function CustomerList({ customers, onAddCustomer, onUpdateCustomer }) {
                 </div>
               ) : (
                 <>
-                  <>
-                    <div className="table-cell">{customer.name}</div>
-                    <div className="table-cell">{customer.email}</div>
-                    <div className="table-cell">{customer.phone}</div>
-                  </>
+                  <div className="table-cell">{customer.name}</div>
+                  <div className="table-cell">{customer.email}</div>
+                  <div className="table-cell">{customer.phone}</div>
                   <button 
                     className="edit-button"
                     onClick={() => onUpdateCustomer(customer.id, { ...customer, editing: true })}
@@ -118,7 +116,7 @@ function CustomerList({ customers, onAddCustomer, onUpdateCustomer }) {
                   </button>
                 </>
               )}
-            </li>
+            </div>
           ))}
         </div>
       )}

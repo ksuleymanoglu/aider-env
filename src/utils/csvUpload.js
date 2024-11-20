@@ -3,7 +3,7 @@ export const parseCSV = (file) => {
     const reader = new FileReader();
     
     reader.onload = (event) => {
-      const text = event.target.result;
+      const text = event.target.result.replace(/^\uFEFF/, ''); // Remove BOM if present
       // Handle different line endings (CRLF, LF)
       const lines = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n').split('\n');
       
@@ -12,14 +12,30 @@ export const parseCSV = (file) => {
         .slice(1)
         .filter(line => line.trim())
         .map(line => {
-          // Handle possible quoted fields
-          const fields = line.split(',').map(field => {
-            const trimmed = field.trim();
-            // Remove quotes if present
-            return trimmed.replace(/^["'](.*)["']$/, '$1');
-          });
+          let fields = [];
+          let field = '';
+          let inQuotes = false;
           
-          const [name, email, phone] = fields;
+          // Parse CSV properly handling quoted fields
+          for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+            if (char === '"') {
+              if (inQuotes && line[i + 1] === '"') {
+                field += '"';
+                i++;
+              } else {
+                inQuotes = !inQuotes;
+              }
+            } else if (char === ',' && !inQuotes) {
+              fields.push(field.trim());
+              field = '';
+            } else {
+              field += char;
+            }
+          }
+          fields.push(field.trim());
+          
+          const [name, email, phone] = fields.map(f => f.replace(/^["'](.*)["']$/, '$1'));
           return { name, email, phone };
         });
       

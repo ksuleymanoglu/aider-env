@@ -24,8 +24,9 @@ export const exportToCSV = (customers, filename) => {
     ...customerData.map(row => row.join(','))
   ].join('\r\n'); // Use Windows-style line endings for better compatibility
   
-  // Create blob and download
-  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  // Create blob with UTF-8 BOM and download
+  const BOM = '\uFEFF';
+  const blob = new Blob([BOM + csvContent], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement('a');
   
   // Create download link

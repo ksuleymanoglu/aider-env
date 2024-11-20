@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { exportToCSV } from '../utils/csvExport';
+import { parseCSV } from '../utils/csvUpload';
 import './CustomerList.css';
 
 function CustomerList({ customers, onAddCustomer, onUpdateCustomer }) {
@@ -61,14 +62,37 @@ function CustomerList({ customers, onAddCustomer, onUpdateCustomer }) {
 
       <div className="list-header">
         <h2>Customer List</h2>
-        {customers.length > 0 && (
-          <button 
-            className="export-button"
-            onClick={() => exportToCSV(customers, 'customers.csv')}
-          >
-            Export CSV
-          </button>
-        )}
+        <div className="csv-buttons">
+          <input
+            type="file"
+            accept=".csv"
+            style={{ display: 'none' }}
+            onChange={async (e) => {
+              try {
+                const file = e.target.files[0];
+                if (file) {
+                  const customersData = await parseCSV(file);
+                  customersData.forEach(customer => onAddCustomer(customer));
+                }
+              } catch (error) {
+                alert('Error reading CSV file');
+              }
+              e.target.value = '';
+            }}
+            id="csv-upload"
+          />
+          <label className="upload-button" htmlFor="csv-upload">
+            Upload CSV
+          </label>
+          {customers.length > 0 && (
+            <button 
+              className="export-button"
+              onClick={() => exportToCSV(customers, 'customers.csv')}
+            >
+              Export CSV
+            </button>
+          )}
+        </div>
       </div>
       {customers.length === 0 ? (
         <p>No customers yet.</p>

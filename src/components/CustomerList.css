@@ -84,6 +84,7 @@
   border-radius: 4px;
   cursor: pointer;
   color: white;
+  background-color: #3D5A80;
 }
 
 .edit-button.save {

@@ -72,7 +72,12 @@ function CustomerList({ customers, onAddCustomer, onUpdateCustomer }) {
                 const file = e.target.files[0];
                 if (file) {
                   const customersData = await parseCSV(file);
-                  customersData.forEach(customer => onAddCustomer(customer));
+                  // Add all customers at once with unique IDs
+                  const customersWithIds = customersData.map(customer => ({
+                    ...customer,
+                    id: Date.now() + Math.random()
+                  }));
+                  onAddCustomer(customersWithIds);
                 }
               } catch (error) {
                 alert('Error reading CSV file');

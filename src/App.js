@@ -7,8 +7,14 @@ import './App.css';
 function App() {
   const [customers, setCustomers] = useState([]);
 
-  const addCustomer = (customer) => {
-    setCustomers([...customers, { ...customer, id: Date.now() }]);
+  const addCustomer = (customerOrCustomers) => {
+    if (Array.isArray(customerOrCustomers)) {
+      // Handle bulk import
+      setCustomers([...customers, ...customerOrCustomers]);
+    } else {
+      // Handle single customer add
+      setCustomers([...customers, { ...customerOrCustomers, id: Date.now() }]);
+    }
   };
 
   const updateCustomer = (id, updatedCustomer) => {

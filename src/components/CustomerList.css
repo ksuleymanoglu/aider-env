@@ -54,7 +54,7 @@
 
 .table-header {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 120px;
+  grid-template-columns: 1fr 1.5fr 1fr 120px;
   background-color: #3D5A80;
   color: white;
   padding: 1rem;
@@ -67,7 +67,7 @@
 
 .table-row {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 120px;
+  grid-template-columns: 1fr 1.5fr 1fr 120px;
   padding: 1rem;
   border-bottom: 1px solid #E0FBFC;
   align-items: center;

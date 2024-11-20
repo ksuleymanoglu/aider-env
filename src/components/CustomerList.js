@@ -107,7 +107,6 @@ function CustomerList({ customers, onAddCustomer, onUpdateCustomer, onDeleteCust
             <div className="header-cell">Name</div>
             <div className="header-cell">Email</div>
             <div className="header-cell">Phone</div>
-            <div className="header-cell">Actions</div>
             <div className="header-cell"></div>
           </div>
           {customers.map(customer => (

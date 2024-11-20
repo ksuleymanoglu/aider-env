@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { exportToCSV } from '../utils/csvExport';
 import './CustomerList.css';
 
 function CustomerList({ customers, onAddCustomer, onUpdateCustomer }) {
@@ -58,7 +59,17 @@ function CustomerList({ customers, onAddCustomer, onUpdateCustomer }) {
         <button type="submit" className="submit-button">Add Customer</button>
       </form>
 
-      <h2>Customer List</h2>
+      <div className="list-header">
+        <h2>Customer List</h2>
+        {customers.length > 0 && (
+          <button 
+            className="export-button"
+            onClick={() => exportToCSV(customers, 'customers.csv')}
+          >
+            Export CSV
+          </button>
+        )}
+      </div>
       {customers.length === 0 ? (
         <p>No customers yet.</p>
       ) : (
